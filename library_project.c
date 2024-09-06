@@ -1,6 +1,27 @@
 #include <stdio.h>
+#include <string.h>
+
+int books_count = 100;
+//char books_list[books_count][20];
+
+struct book {
+
+char title[100][20];
+char author[100][20];
+int price[100];
+int quantity[100];
+//int counter = 0;
+};
+
+
 void addBook(){
-printf("you are adding a new book");
+int var;
+printf("please enter the title of the book: ");
+scanf("%d",&var);
+printf("%d",var);
+printf("");
+printf("");
+
 }
 
 void showBooks(){
