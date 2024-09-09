@@ -38,7 +38,7 @@ if (counter < books_max){
 
 void showBooks(){
 for(int i = 0; i < counter; i++){
-    printf("the book N°%d:\n    Title: %s\n    Author: %s\n    Price: %f\n    Quantity: %d\n",i+1,books_list[counter].title,books_list[counter].author,books_list[counter].price,books_list[counter].quantity);
+    printf("the book N°%d:\n    Title: %s\n    Author: %s\n    Price: %.2f\n    Quantity: %d\n",i+1,books_list[i].title,books_list[i].author,books_list[i].price,books_list[i].quantity);
 }
 }
 
@@ -51,11 +51,11 @@ scanf(" %[^\n]%*c",search_title);
 
 for(int i = 0 ; i < counter; i++){
     if (strcmp(books_list[i].title,search_title) == 0){
-        found = i ;
+        found = i+1 ;
     }
 }
 if(found != 0){
-    printf("here is the book you are looking for:\n    Title: %s\n    Author: %s\n    Price: %f\n    Quantity: %d\n",books_list[found].title,books_list[found].author,books_list[found].price,books_list[found].quantity);
+    printf("here is the book you are looking for:\n    Title: %s\n    Author: %s\n    Price: %.2f\n    Quantity: %d\n",books_list[found-1].title,books_list[found-1].author,books_list[found-1].price,books_list[found-1].quantity);
 }else{
     printf("Sorry, the book you are looking for is unavailable!");
 }
@@ -70,23 +70,47 @@ void updateBook(){
 
     for (int i = 0 ; i < counter ; i++){
         if(strcmp(books_list[i].title, title_search)==0){
-            found = i;
+            found = i+1;
         }
     }
     if(found != 0){
-        printf("Book found! Its current quantity is: %d",books_list[found].quantity);
+        printf("Book found! Its current quantity is: %\n",books_list[found-1].quantity);
         printf("enter the new quantity value: ");
         scanf("%d",&new_quantity);
-            books_list[found].quantity= new_quantity;
-        printf("Operation completed! the book with title %s has the quantity of %d books",books_list[found].title, books_list[found].quantity);
+            books_list[found-1].quantity= new_quantity;
+        printf("Operation completed! the book with title %s has the quantity of %d books",books_list[found-1].title, books_list[found-1].quantity);
     }else{
         printf("Sorry! The book your are looking for is unavailable.");
     }
 }
 
 void removebook(){
-printf("you are removing book");
+    char title_search[50];
+    int found = 0;
+    printf("Please enter the title of the book you want to remove: ");
+    scanf(" %[^\n]",title_search);
 
+   for(int i=0 ; i<counter ; i++){
+        if(strcmp(books_list[i].title,title_search)==0){
+            found =i+1;
+            break;
+        }
+   }
+
+   if(found!=0){
+        for ( int j = found-1 ; j< counter; j++){
+               strcpy(books_list[j].title,books_list[j+1].title) ;
+               strcpy(books_list[j].author,books_list[j+1].author) ;
+               books_list[j].price = books_list[j+1].price;
+               books_list[j].quantity = books_list[j+1].quantity;
+               counter--;
+               printf("Operation completed! you have successfully removed the book named \"%s\"",title_search);
+               break;
+         }
+
+    }else{
+            printf("Sorry! the book you are looking for is unavailable.");
+        }
 }
 
 void booksQuantity(){
@@ -104,7 +128,8 @@ int main (){
 
 
 int choice ;
-
+Welcome_Menu:
+printf("-------------------------------------\n");
 printf("The Menu\n");
 printf("please choose a number in the list bellow:\n");
 printf("1- Add new book to the library.\n");
@@ -120,26 +145,32 @@ scanf("%d",&choice);
 switch(choice){
 case 1 :
     addBook();
+    goto Welcome_Menu;
 break;
 
 case 2 :
     showBooks();
+    goto Welcome_Menu;
 break;
 
 case 3 :
     searchingBook();
+    goto Welcome_Menu;
 break;
 
 case 4 :
     updateBook();
+    goto Welcome_Menu;
 break;
 
 case 5 :
     removebook();
+    goto Welcome_Menu;
 break;
 
 case 6 :
     booksQuantity();
+    goto Welcome_Menu;
 break;
 
 }
